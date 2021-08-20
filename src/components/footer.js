@@ -58,11 +58,9 @@ const Footer = () => (
         marginTop: footerTop-500,
         width: '100%',
         backgroundColor: '#facbac',
-        textAlign: 'center'
     }}>
 
         <div style={{
-            position: 'relative',
             maxWidth: 900,
             marginLeft: 'auto',
             marginRight: 'auto'
@@ -84,7 +82,8 @@ const Footer = () => (
                 display: 'inline-block',
                 right: 0,
                 width: 250,
-                marginTop: 0
+                marginTop: 0,
+                textAlign: 'center'
             }}>
                 <Icon src={twitter} alt="twitter" href="https://twitter.com/ElyseosFDN"/>
                 <Icon src={telegram} alt="telegram" href="https://t.me/joinchat/kJCUkY1WacpkZTVk"/>

@@ -18,6 +18,7 @@ class Main extends Component {
     checkMetamask = async () => {
         let provider = await detectEthereumProvider()
         if (provider) {
+            window.ethereum = provider
             return window.ethereum.isMetaMask
         }
         return false
@@ -68,7 +69,7 @@ class Main extends Component {
         }
 
         return (
-            <div style={{position: 'relative'}}>
+            <div>
                 <Banner />
                 <Intro />
                 {body}
