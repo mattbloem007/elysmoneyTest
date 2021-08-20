@@ -30,7 +30,7 @@ const Column = (props) => {
             textAlign: 'left',
             marginLeft: 30
         }}>
-            <div style={{fontSize: 16, fontWeight: 'bold', marginTop: 8, marginBottom: 5}}>{props.header}</div> 
+            <div style={{fontSize: 16, fontWeight: 'bold', marginTop: 9, marginBottom: 6}}>{props.header}</div> 
             {props.children}
         </div>
     )
@@ -48,13 +48,17 @@ const Link = (props) => {
     }}>{props.children}</a>
 }
 
+let footerTop = window.innerHeight - 100
+if(footerTop<700)footerTop = 700
+
 const Footer = () => (
     <div style={{
-        position: 'absolute',
-        bottom: 0,
+        position: 'relative',
+        display: 'block',
+        marginTop: footerTop-500,
         width: '100%',
         backgroundColor: '#facbac',
-        height: 100
+        textAlign: 'center'
     }}>
 
         <div style={{

@@ -8,6 +8,7 @@ const TokenInfoBox = (props) => {
         width: 250,
         marginLeft: 20,
         marginRight: 25,
+        marginTop: 20,
         color: '#ed6f1b',
         fontWeight: 'bold'
     }

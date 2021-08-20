@@ -7,7 +7,7 @@ const Intro = () => (
         maxWidth: 750,
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: 50
+        marginTop: 40
     }}>
         This is the home of the ELYS token. ELYS is the native token of the Elyseos Sacramental Medicine ecosystem. To find out more visit
         <a href="https://www.elyseos.com" style={{

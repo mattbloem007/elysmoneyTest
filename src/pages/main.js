@@ -68,7 +68,7 @@ class Main extends Component {
         }
 
         return (
-            <div>
+            <div style={{position: 'relative'}}>
                 <Banner />
                 <Intro />
                 {body}
