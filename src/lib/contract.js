@@ -36,6 +36,8 @@ class Contract {
                     options.value = value;
                 }
                 if(method.stateMutability==="view"){
+                    delete options.gas
+                    delete options.gasPrice
                     let res = await func.call(options);
                     return res;
                 } else {
