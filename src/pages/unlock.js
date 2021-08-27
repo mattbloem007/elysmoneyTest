@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import TokenInfoBox from './tokeninfobox'
+import TokenInfoBox from '../components/tokeninfobox'
 import Contract from '../lib/contract'
-import Withdraw from './withdraw'
+import Withdraw from '../components/withdraw'
 import contractAddress from '../crypto/contractAddress';
 
 
@@ -86,7 +86,7 @@ class TokenInfo extends Component {
     }
 }
 
-class TokenInfoPage extends Component {
+class UnlockPage extends Component {
     state = {
         lockSeed: null,
         lockTeam: null,
@@ -165,4 +165,4 @@ class TokenInfoPage extends Component {
     }
 }
 
-export default TokenInfoPage
+export default UnlockPage
