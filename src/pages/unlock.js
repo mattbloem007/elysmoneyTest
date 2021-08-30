@@ -38,8 +38,8 @@ class TokenInfo extends Component {
         }
         catch(e){
             clearInterval(checkDone)
-            this.setState({error: true})
-            await this.wait(1000)
+            //this.setState({error: true})
+            //await this.wait(1000)
             await this.props.getInfo(this.props.type)
             this.setState({waitingForWithdraw:false, error: false})
         }

@@ -20,6 +20,10 @@ class Main extends Component {
         sideMenuHidden: isMobile?true:false,
         page: 'home'
     }
+    componentDidMount = () => {
+        let page = sessionStorage.getItem("page")
+        if(page)this.setState({page})
+    }
     checkMetamask = async () => {
         let provider = await detectEthereumProvider()
         if (provider) {
@@ -61,6 +65,7 @@ class Main extends Component {
             window.location.href="https://www.elyseos.com"
             return
         }
+        sessionStorage.setItem("page",page)
         this.setState({page: page})
     }
     hamburgerClick = () => {

@@ -52,8 +52,8 @@ const Link = (props) => {
 
 const Logo = (props) => {
     return (
-        <div style={{padding: 20, width: 210, marginLeft: 'auto', marginRight: 'auto',
-        textAlign: 'center'}}>
+        <a style={{padding: 20, width: 210, marginLeft: 'auto', marginRight: 'auto',
+        textAlign: 'center', textDecoration:'none', display: 'block'}} href="https://elyseos.com" target="_blank" rel="noreferrer">
             <img src={logo} width={70} alt="logo"/>
             <div style={{
                 display: 'inline-block', 
@@ -66,13 +66,13 @@ const Logo = (props) => {
             }}>
                 ELYS Token
             </div>
-        </div>
+        </a>
     )
 }
 
 const Price = (props) => {
     if(!props.connected)return null
-    return <div style={{ 
+    return <a style={{ 
         width: 200,
         display: 'block',
         marginRight: 'auto',
@@ -83,8 +83,10 @@ const Price = (props) => {
         fontSize: 17,
         fontWeight: 'bold',
         padding: 10,
-        textAlign: 'center'
-    }}>
+        textAlign: 'center',
+        textDecoration: 'none'
+    }} href=" https://charts.zoocoin.cash/charts?exchange=ZooDex&pair=0x6831b2EDe25Dcc957256FAE815f051181F6C7b08-inverted
+" target="_blank" rel="noreferrer">
         <img src={logo} width={30} alt="ElysLogo" />
         <div style={{display: 'inline-block', marginLeft: 10, verticalAlign: 'top', marginTop: 5}}>
             ${trimDec(props.price.usd,2)}
@@ -98,7 +100,7 @@ const Price = (props) => {
         </div>
          
         
-    </div>
+    </a>
 }
 
 
