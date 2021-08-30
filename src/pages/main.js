@@ -30,6 +30,20 @@ class Main extends Component {
     }
     getPrice = async () => {
         let price = await elysPrice.get()
+        if(price.usd===0 || price.ftm===0){
+            let tryAgain = () => {
+                return new Promise(resolve=>{
+                    let i = setInterval(async () => {
+                        let price = await elysPrice.get()
+                        if(price.usd!==0 && price.ftm!==0){
+                            clearInterval(i)
+                            resolve(price)
+                        }
+                    })
+                })
+            }
+            price = await tryAgain()
+        }
         return price
     }
     connected = async () => {
