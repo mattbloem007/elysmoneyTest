@@ -5,15 +5,11 @@ import Withdraw from '../components/withdraw'
 import contractAddress from '../crypto/contractAddress';
 
 
-
 class TokenInfo extends Component {
     state = {
         lockedLoading: true,
         withdrawnLoading: true,
         availableLoading: true,
-        locked: 0,
-        withdrawn: 0,
-        available: 0,
         waitingForWithdraw: false,
         account: ''
     }
@@ -26,7 +22,7 @@ class TokenInfo extends Component {
                 let available = await lock['amountCanRelease']([])
                 if(available===0){
                     clearInterval(checkDone)
-                    await this.getInfo(lock)
+                    await this.props.getInfo(this.props.type)
                     this.setState({waitingForWithdraw:false})
                 }
             }
@@ -36,52 +32,15 @@ class TokenInfo extends Component {
         },20000)
         await lock['release']([])
         clearInterval(checkDone)
-        await this.getInfo(lock)
+        await this.props.getInfo(this.props.type)
         this.setState({waitingForWithdraw:false})
     }
-    
-    getInfo = async () => {
-        if(!this.props.lock){
-            this.setState({
-                lockedLoading: false,
-                locked: "0",
-                withdrawnLoading: false,
-                withdrawn: "0",
-                availableLoading: false,
-                available: "0"
-            })
-        }
-        let lock = this.props.lock
-        try{
-            let locked = await lock['locked']([])
-            locked = parseInt(locked/100000).toString()
-            this.setState({lockedLoading: false,locked: locked})
-        }
-        catch(e){
-            this.setState({lockedLoading: false,locked: "0"})
-        }
-
-        try{
-            let withdrawn = await lock['released']([])
-            withdrawn = parseInt(withdrawn/100000).toString()
-            this.setState({withdrawnLoading: false,withdrawn: withdrawn})
-        }
-        catch(e){
-            this.setState({withdrawnLoading: false,withdrawn: "0"})
-        }
-
-        try{
-            let available = await lock['amountCanRelease']([])
-            available = parseInt(available/100000).toString()
-            this.setState({availableLoading: false,available: available})
-        }
-        catch(e){
-            this.setState({availableLoading: false,available: "0"})
-        }
+    wait = (tm) => {
+        return new Promise(r=>{
+            setTimeout(()=>r(),tm)
+        })
     }
-    componentDidMount = async () => {
-        await this.getInfo()
-    }
+   
     render = () => {
         return (
             <div style={{
@@ -92,10 +51,10 @@ class TokenInfo extends Component {
                 marginTop: 40,
                 textAlign: 'center'
             }}>
-                <TokenInfoBox text={this.state.locked + " ELYS"} label="Locked" loading={this.state.lockedLoading}/>
-                <TokenInfoBox text={this.state.withdrawn + " ELYS"} label="Already Withdrawn" loading={this.state.withdrawnLoading}/>
-                <TokenInfoBox text={this.state.available + " ELYS"} label="Available to Withdraw" loading={this.state.availableLoading}/>
-                <Withdraw amount={parseFloat(this.state.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} />
+                <TokenInfoBox text={this.props.locked + " ELYS"} label="Locked" loading={this.props.loading}/>
+                <TokenInfoBox text={this.props.withdrawn + " ELYS"} label="Already Withdrawn" loading={this.props.loading}/>
+                <TokenInfoBox text={this.props.available + " ELYS"} label="Available to Withdraw" loading={this.props.loading}/>
+                <Withdraw amount={parseFloat(this.props.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} />
             </div>
         )
     }
@@ -103,38 +62,85 @@ class TokenInfo extends Component {
 
 class UnlockPage extends Component {
     state = {
+        seedInfo: {loading: true},
+        teamInfo: {loading: true},
         lockSeed: null,
         lockTeam: null,
         viewing: 'seed',
         loading: true,
         account: ''
     }
+    wait = (tm) => {
+        return new Promise(r=>{
+            setTimeout(()=>r(),tm)
+        })
+    }
     getLock = async (factory) => {
         
         let TokenFactory = new Contract('lockFactory',contractAddress[factory])
         let accounts = await window.web3.eth.getAccounts()
-        let account = accounts[0]
+        let account = '0x83e79F5Fbe8D6dD7E8b44EE505c24bD9A77F5d02'// accounts[0]
         this.setState({account: account})
         try{
             let lockAddress = await TokenFactory['getLock']([account])
             return new Contract('lockToken',lockAddress)
         }
         catch(e){
-            return null
+            
+            if(e.code===-32000){
+                await this.wait(500)
+                return await this.getLock(factory)
+            }
+            else{
+                return null
+            }
         }
         
     }
-
+    getInfo = async (lockType) => {
+        let lock = (lockType==='seed')?this.state.lockSeed:this.state.lockTeam
+        
+        try{
+            await this.wait(200)
+            let locked = await lock['locked']([])
+            locked = parseInt(locked/100000).toString()
+            await this.wait(200)
+            let withdrawn = await lock['released']([])
+            withdrawn = parseInt(withdrawn/100000).toString()
+            await this.wait(200)
+            let available = await lock['amountCanRelease']([])
+            available = parseInt(available/100000).toString()
+            let info = {
+                loading: false,
+                locked,withdrawn,available,type:'lockType'
+            }
+            console.log(info)
+            if(lockType==='seed'){
+                this.setState({seedInfo:info})
+            } else {
+                this.setState({teamInfo:info})
+            }
+        }
+        catch(e){
+            setTimeout(()=>this.getInfo(lockType),500)
+        }
+    }
     componentDidMount = async () => {
         let seedLock = await this.getLock('lockFactorySeed')
+        await this.wait(200)
         let teamLock = await this.getLock('lockFactoryTeam')
+        
         this.setState({
             lockSeed: seedLock,
             lockTeam: teamLock,
             loading: false
         })
+
+        if(seedLock) await this.getInfo('seed')
+        if(teamLock) await this.getInfo('team')
     }
     choose = (lock) => {
+        console.log(lock)
         this.setState({viewing:lock})
     }
     render = () => {
@@ -155,9 +161,10 @@ class UnlockPage extends Component {
             </div>
         )
         if(this.state.lockSeed && this.state.lockTeam){
-            let tokenInfo = (this.state.viewing==='seed')?(<TokenInfo lock={this.state.lockSeed} />):(<TokenInfo lock={this.state.lockTeam} />)
+            let tokenInfo = (this.state.viewing==='seed')?(<TokenInfo {...this.state.seedInfo} lock={this.state.lockSeed} getInfo={this.getInfo}/>):(<TokenInfo  {...this.state.teamInfo} lock={this.state.lockTeam} getInfo={this.getInfo}/>)
             return (
             <div>
+                
                 <div style={{width: 300, marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
                     <button onClick={()=>this.choose('seed')} style={{
                         display: 'inline-block',
@@ -186,8 +193,8 @@ class UnlockPage extends Component {
             </div>
             )
         } 
-        if(this.state.lockSeed) return (<TokenInfo lock={this.state.lockSeed} />)
-        return (<TokenInfo lock={this.state.lockTeam} />)
+        if(this.state.lockSeed) return (<TokenInfo lock={this.state.lockSeed} {...this.state.seedInfo} getInfo={this.getInfo}/>)
+        return (<TokenInfo lock={this.state.lockTeam} {...this.state.teamInfo} getInfo={this.getInfo}/>)
     }
 }
 

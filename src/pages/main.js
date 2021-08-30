@@ -53,7 +53,7 @@ class Main extends Component {
             let price = await this.getPrice()
             price.loaded = true
             this.setState({connected:true,elysPrice: price})
-        },30000)
+        },120000)
     }
     gotoPage = (page) => {
         this.hideSideBar()
