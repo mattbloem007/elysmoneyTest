@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Contract from '../lib/contract'
 import contractAddress from '../crypto/contractAddress';
+import TokenInfoBox from './tokeninfobox'
 
 const orange = '#ec7019'
 
@@ -35,22 +36,47 @@ class Stats extends Component {
     getTotalElys = async () => {
         let Token = new Contract('elys',contractAddress['elys'])
         let totalSupply = await Token['totalSupply']()
-        this.setState({totalSupply})
+        return totalSupply
+        
     }
     getLocked = async () => {
+        let startDate = new Date('22 Aug 2021')
+        let now = Date.now()
+        let daysPassed = parseInt((now - startDate.getTime())/(24*3600*1000))
 
+        let getLocked = (orig,days) => orig-(orig/days)*daysPassed
+
+        let seedLocked = getLocked(1736266,20)  //20 days
+        let teamLocked = getLocked(700000,100)  //100 days
+        let foundationLocked = getLocked(10000000,100)  //100 days
+
+        let land = (daysPassed<365)?10000000:0 //365 days
+
+        return parseInt(seedLocked + teamLocked + foundationLocked + land)
     }
     componentDidMount = async () => {
-        
-        await this.getTotalElys()
+        let totalSupply = await this.getTotalElys()
+        let locked = await this.getLocked()
+
+        this.setState({totalSupply,locked})
     }
     marketCap = () => {
         return addCommas(trimDec((this.state.totalSupply/100000)*this.props.price.usd,0))
     }
+    valueLocked = () => {
+        return addCommas(trimDec(this.state.locked * this.props.price.usd,0))
+    }
+    inCirculation = () => {
+        return addCommas(this.state.totalSupply/100000 - this.state.locked)
+    }
     render = () => {
        
         return (
-            <div>Market Cap: ${this.marketCap()}</div>
+            <div style={{maxWidth: 800, marginTop: 30, marginBottom: 30}}>
+                <TokenInfoBox text={'$ ' +  this.valueLocked()} label={'Total Value Locked'} />    
+                <TokenInfoBox text={'$ ' + this.marketCap()} label={'Market Cap'} />
+                <TokenInfoBox text={this.inCirculation()} label={'Circulating ELYS'} />
+            </div>
         )
     }
 

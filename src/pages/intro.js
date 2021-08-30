@@ -9,7 +9,7 @@ const Intro = (props) => (
         fontWeight: 700,
         textAlign: 'center',
         display: 'block',
-        maxWidth: 750,
+        maxWidth: 800,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 40,
@@ -25,7 +25,7 @@ const Intro = (props) => (
             marginTop: 10
         }}>www.elyseos.com</a>
         </div>
-        <div style={{maxWidth: isMobile?350:'80%', marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
+        <div style={{maxWidth: isMobile?350:460, marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
             Elys.money is for interacting with the Token itself. You can:
             <ul style={{textAlign: 'left'}}>
                 <li style={{padding: 5}}>Stake your liquidity for 3, 6, 12 months to earn ELYS rewards</li>
