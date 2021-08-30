@@ -51,6 +51,18 @@ class PageWrapper extends Component {
         
     }
     render = () => {
+
+        /*
+            Sy, [30 Aug 2021 at 16:06:30]:
+            MetaMask - A crypto wallet & gateway to blockchain apps
+
+            Sy, [30 Aug 2021 at 16:06:30]:
+            ...“You will need metamask to interact with elys.money please get it here
+            metamask logo linking to https://metamask.io/“
+
+            https://metamask.io/images/mm-logo.svg
+
+        */
         if(this.state.loading){
             return (
                 <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
@@ -67,7 +79,7 @@ class PageWrapper extends Component {
             } else if (!this.state.hasMetamask){
                 return (
                     <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
-                            no metamask
+                            
                     </div>
                 )
             } else {
