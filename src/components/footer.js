@@ -33,12 +33,11 @@ if(!isMobile && footerTop<700)footerTop = 700
 
 const Footer = () => (
     <div style={{
-        position: 'relative',
         display: 'block',
-        marginTop: (isMobile)?footerTop-510:footerTop-520,
         width: '100%',
         backgroundColor: '#facbac',
-        height: 100
+        height: 100,
+        bottom: 0
     }}>
 
         <div style={{

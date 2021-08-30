@@ -110,14 +110,20 @@ const Menu = (props) => {
         flex: '0 0 280px',
         position:  (isMobile)?'absolute':'relative',
         left: (isMobile)?(props.hidden)?-300:0:0,
+        transition: '0.5s',
         top:  0,
         bottom: 0,
         verticalAlign: 'top',
         zIndex: '90',
         borderRight: 'solid 2px ' + orange
     }
+
+    /*
+    <Link current={props.page} gotoPage={props.gotoPage} page={'plugins'}>Plugins & Tools</Link>
+    <Link current={props.page} gotoPage={props.gotoPage} page={'farm'}>Permaculture Farm</Link>
+    */
     return (
-        <div style={style}>
+        <div style={style} onClick={props.click}>
             <Logo />
             <Price price={props.price} connected={props.connected}/>
             <div style={{
@@ -128,10 +134,10 @@ const Menu = (props) => {
                 display: 'block'
             }}>
                 <Link current={props.page} gotoPage={props.gotoPage} page={'home'}>Home</Link>
-                <Link current={props.page} gotoPage={props.gotoPage} page={'farm'}>Permaculture Farm</Link>
+                
                 <Link current={props.page} gotoPage={props.gotoPage} page={'token'}>Unlock Tokens</Link>
                 <Link current={props.page} gotoPage={props.gotoPage} page={'swap'}>Swap @ ZooDEX</Link>
-                <Link current={props.page} gotoPage={props.gotoPage} page={'plugins'}>Plugins & Tools</Link>
+                
                 <Link current={props.page} gotoPage={props.gotoPage} page={'homepage'}>Elyseos Homepage</Link>
                 
             </div>

@@ -54,26 +54,26 @@ class PageWrapper extends Component {
     render = () => {
         if(this.state.loading){
             return (
-                <div style={{display: 'flex', position: 'relative', minHeight: 300}}>
+                <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
                         <Loading />
                 </div>
             )
         } else {
             if(this.state.hasMetamask && !this.state.isConnected){
                 return (
-                    <div style={{display: 'flex', position: 'relative', minHeight: 300}}>
+                    <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
                             <Connect connect={this.connect}/>
                     </div>
                 )
             } else if (!this.state.hasMetamask){
                 return (
-                    <div style={{display: 'flex', position: 'relative', minHeight: 300}}>
+                    <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
                             no metamask
                     </div>
                 )
             } else {
                 return (
-                    <div style={{display: 'flex', position: 'relative', minHeight: 300}}>
+                    <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
                         {this.props.children}
                     </div>
                 )
