@@ -54,7 +54,7 @@ const Logo = (props) => {
     return (
         <div style={{padding: 20, width: 210, marginLeft: 'auto', marginRight: 'auto',
         textAlign: 'center'}}>
-            <img src={logo} width={70} />
+            <img src={logo} width={70} alt="logo"/>
             <div style={{
                 display: 'inline-block', 
                 fontSize: 24, 
