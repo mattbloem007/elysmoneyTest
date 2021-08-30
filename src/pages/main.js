@@ -89,7 +89,7 @@ class Main extends Component {
             <div style={{position: 'relative', width: '100%', height: '100%', display: 'flex'}} id="main">
                 <SideMenu hidden={this.state.sideMenuHidden}  page={this.state.page} price={this.state.elysPrice} connected={this.state.connected} gotoPage={this.gotoPage} click={this.hideSideBar}/>
                 <Hamburger click={this.hamburgerClick} hide={!isMobile || !this.state.sideMenuHidden} left={15} top={28} />
-                <div style={{display: 'inline-block',width: 'auto',verticalAlign: 'top', position: 'relative'}}>
+                <div style={{display: 'inline-block',width: '100%',verticalAlign: 'top', position: 'relative'}}>
                     <Banner />
                     {body}
                     <Footer/>
