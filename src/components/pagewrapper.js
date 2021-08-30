@@ -3,6 +3,7 @@ import Web3 from "web3"
 import detectEthereumProvider from '@metamask/detect-provider'
 import Loading from './loading'
 import Connect from './connect'
+import {isMobile} from 'react-device-detect';
 
 class PageWrapper extends Component {
     state = {
@@ -43,6 +44,7 @@ class PageWrapper extends Component {
             let accounts = await window.web3.eth.getAccounts();
             let connected = accounts.length>0
             this.setState({loading: false,hasMetamask: true, isConnected: connected})
+            //this.setState({loading: false,hasMetamask: false, isConnected: false})
             this.props.connected()
         }
         else{
@@ -70,6 +72,7 @@ class PageWrapper extends Component {
                 </div>
             )
         } else {
+
             if(this.state.hasMetamask && !this.state.isConnected){
                 return (
                     <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
@@ -77,9 +80,66 @@ class PageWrapper extends Component {
                     </div>
                 )
             } else if (!this.state.hasMetamask){
+                if(isMobile){
+                    return (
+                        <div style={{display: 'flex', position: 'relative', minHeight: 700, width: '100%', flexDirection: 'column'}}>
+                            <div style={{
+                                display: 'block', 
+                                width: '90%', 
+                                marginLeft: 'auto', 
+                                marginRight: 'auto', 
+                                textAlign: 'center',
+                                marginTop: 150,
+                                fontSize: 18,
+                                fontWeight: 'bold'
+                            }}>
+                                You need to use the Metamask DAPP browser to interact with elys.money
+                            </div>
+                            <a href="https://metamask.app.link/dapp/elys.money" style={{
+                                textDecoration: 'none', 
+                                display: 'block', 
+                                padding: 10, 
+                                backgroundColor: '#ffffff', 
+                                textAlign: 'center', 
+                                marginTop: 40, 
+                                width: 300, 
+                                marginLeft: 'auto', 
+                                marginRight: 'auto',
+                                borderRadius: 5
+                                }}>
+                                <img src="https://metamask.io/images/mm-logo.svg" width={200} alt="metamask" />
+                            </a>
+                        </div>
+                    )
+                }
                 return (
-                    <div style={{display: 'flex', position: 'relative', minHeight: 700}}>
-                            
+                    <div style={{display: 'flex', position: 'relative', minHeight: 700, width: '100%', flexDirection: 'column'}}>
+                            <div style={{
+                                display: 'block', 
+                                width: '90%', 
+                                marginLeft: 'auto', 
+                                marginRight: 'auto', 
+                                textAlign: 'center',
+                                marginTop: 150,
+                                fontSize: 18,
+                                fontWeight: 'bold'
+                            }}>
+                                You will need metamask to interact with elys.money please get it here:
+                                <a href="https://metamask.io/" target="_blank" rel="noreferrer" style={{
+                                    textDecoration: 'none', 
+                                    display: 'block', 
+                                    padding: 10, 
+                                    backgroundColor: '#ffffff', 
+                                    textAlign: 'center', 
+                                    marginTop: 40, 
+                                    width: 300, 
+                                    marginLeft: 'auto', 
+                                    marginRight: 'auto',
+                                    borderRadius: 5
+                                }}>
+                                    <img src="https://metamask.io/images/mm-logo.svg" alt="metamask" />
+                                </a>
+                            </div>
                     </div>
                 )
             } else {
