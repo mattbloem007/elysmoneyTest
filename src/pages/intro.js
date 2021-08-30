@@ -1,4 +1,3 @@
-import { checkPropTypes } from 'prop-types';
 import {isMobile} from 'react-device-detect';
 
 import Stats from '../components/stats'

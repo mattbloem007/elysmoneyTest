@@ -3,7 +3,7 @@ import Contract from '../lib/contract'
 import contractAddress from '../crypto/contractAddress';
 import TokenInfoBox from './tokeninfobox'
 
-const orange = '#ec7019'
+//const orange = '#ec7019'
 
 let trimDec = (n,dec) => {
     let ar = n.toString().split('.')

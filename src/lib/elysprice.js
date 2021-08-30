@@ -15,6 +15,7 @@ const getPrice = async (address,dec1,dec2) => {
     return 0
 }
 
+/*
 const getPriceInv = async (address,dec1,dec2) => {
     console.log('address: ' + address)
     try{
@@ -28,6 +29,7 @@ const getPriceInv = async (address,dec1,dec2) => {
     }
     return 0
 }
+*/
 
 const get = async () => {
     let elysFtm = await getPrice(contractAddress['elysFtmPair'],5,18)

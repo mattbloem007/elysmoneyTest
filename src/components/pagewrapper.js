@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Web3 from "web3"
-import {isMobile} from 'react-device-detect';
 import detectEthereumProvider from '@metamask/detect-provider'
 import Loading from './loading'
 import Connect from './connect'

@@ -2,6 +2,7 @@
   "name": "elys_money",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
     "@testing-library/jest-dom": "^5.11.4",

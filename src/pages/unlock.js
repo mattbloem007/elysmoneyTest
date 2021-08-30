@@ -14,13 +14,28 @@ class TokenInfo extends Component {
         locked: 0,
         withdrawn: 0,
         available: 0,
-        waitingForWithdraw: false
+        waitingForWithdraw: false,
+        account: ''
     }
     withdraw = async () => {
         let lock = this.props.lock
         this.setState({waitingForWithdraw:true})
         //need to do polling etc. here
+        let checkDone = setInterval(async ()=>{
+            try{
+                let available = await lock['amountCanRelease']([])
+                if(available===0){
+                    clearInterval(checkDone)
+                    await this.getInfo(lock)
+                    this.setState({waitingForWithdraw:false})
+                }
+            }
+            catch(e){
+                console.log(e)
+            }
+        },20000)
         await lock['release']([])
+        clearInterval(checkDone)
         await this.getInfo(lock)
         this.setState({waitingForWithdraw:false})
     }
@@ -39,7 +54,7 @@ class TokenInfo extends Component {
         let lock = this.props.lock
         try{
             let locked = await lock['locked']([])
-            locked = (locked/100000).toString()
+            locked = parseInt(locked/100000).toString()
             this.setState({lockedLoading: false,locked: locked})
         }
         catch(e){
@@ -48,7 +63,7 @@ class TokenInfo extends Component {
 
         try{
             let withdrawn = await lock['released']([])
-            withdrawn = (withdrawn/100000).toString()
+            withdrawn = parseInt(withdrawn/100000).toString()
             this.setState({withdrawnLoading: false,withdrawn: withdrawn})
         }
         catch(e){
@@ -57,7 +72,7 @@ class TokenInfo extends Component {
 
         try{
             let available = await lock['amountCanRelease']([])
-            available = (available/100000).toString()
+            available = parseInt(available/100000).toString()
             this.setState({availableLoading: false,available: available})
         }
         catch(e){
@@ -91,14 +106,15 @@ class UnlockPage extends Component {
         lockSeed: null,
         lockTeam: null,
         viewing: 'seed',
-        loading: true
+        loading: true,
+        account: ''
     }
     getLock = async (factory) => {
         
         let TokenFactory = new Contract('lockFactory',contractAddress[factory])
         let accounts = await window.web3.eth.getAccounts()
         let account = accounts[0]
-        
+        this.setState({account: account})
         try{
             let lockAddress = await TokenFactory['getLock']([account])
             return new Contract('lockToken',lockAddress)
@@ -122,11 +138,21 @@ class UnlockPage extends Component {
         this.setState({viewing:lock})
     }
     render = () => {
+        let style={
+            display: 'block',
+            marginTop: 100,
+            textAlign: 'center',
+            fontSize: 20,
+            width: '100%'
+        }
         if(this.state.loading)return (
-            <div>Loading..</div>
+            <div style={style}>Loading..</div>
         )
         if(!this.state.lockSeed && !this.state.lockTeam)return (
-            <div>You don't currently have any tokens locked up</div>
+            <div style={style}>
+                You don't currently have any tokens locked up for this account
+                <div style={{fontSize: 12, color: '#dddddd', marginTop: 10}}>[{this.state.account}]</div>
+            </div>
         )
         if(this.state.lockSeed && this.state.lockTeam){
             let tokenInfo = (this.state.viewing==='seed')?(<TokenInfo lock={this.state.lockSeed} />):(<TokenInfo lock={this.state.lockTeam} />)
