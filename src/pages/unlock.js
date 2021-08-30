@@ -42,6 +42,7 @@ class TokenInfo extends Component {
     }
    
     render = () => {
+        let withdraw = (!this.props.loading)?<Withdraw amount={parseFloat(this.props.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} />:null
         return (
             <div style={{
                 maxWidth: 900,
@@ -54,7 +55,7 @@ class TokenInfo extends Component {
                 <TokenInfoBox text={this.props.locked + " ELYS"} label="Locked" loading={this.props.loading}/>
                 <TokenInfoBox text={this.props.withdrawn + " ELYS"} label="Already Withdrawn" loading={this.props.loading}/>
                 <TokenInfoBox text={this.props.available + " ELYS"} label="Available to Withdraw" loading={this.props.loading}/>
-                <Withdraw amount={parseFloat(this.props.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} />
+                {withdraw}
             </div>
         )
     }
@@ -76,24 +77,27 @@ class UnlockPage extends Component {
         })
     }
     getLock = async (factory) => {
-        
+        console.log(factory)
         let TokenFactory = new Contract('lockFactory',contractAddress[factory])
         let accounts = await window.web3.eth.getAccounts()
         let account = accounts[0]
         this.setState({account: account})
         try{
             let lockAddress = await TokenFactory['getLock']([account])
+            console.log(lockAddress)
             return new Contract('lockToken',lockAddress)
         }
         catch(e){
-            
-            if(e.code===-32000){
-                await this.wait(500)
-                return await this.getLock(factory)
-            }
-            else{
+            console.log(e.message)
+            /*
+            if(e.code===-32603){
                 return null
             }
+            await this.wait(1000)
+            return await this.getLock(factory)
+            */
+           return null
+           
         }
         
     }
@@ -130,6 +134,7 @@ class UnlockPage extends Component {
         await this.wait(200)
         let teamLock = await this.getLock('lockFactoryTeam')
         
+        
         this.setState({
             lockSeed: seedLock,
             lockTeam: teamLock,
@@ -138,6 +143,7 @@ class UnlockPage extends Component {
 
         if(seedLock) await this.getInfo('seed')
         if(teamLock) await this.getInfo('team')
+        
     }
     choose = (lock) => {
         console.log(lock)

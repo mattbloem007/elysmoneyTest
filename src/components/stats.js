@@ -32,12 +32,22 @@ class Stats extends Component {
     state = {
         totalSupply: 0
     }
-    loading = () => this.state.totalSupply>0 && !this.props.price.loading
+    loading = () => this.state.totalSupply===0 || this.props.price.loading
+    wait = (tm) => {
+        return new Promise(r=>{
+            setTimeout(()=>r(),tm)
+        })
+    }
     getTotalElys = async () => {
         let Token = new Contract('elys',contractAddress['elys'])
-        let totalSupply = await Token['totalSupply']()
-        return totalSupply
-        
+        try{
+            let totalSupply = await Token['totalSupply']()
+            return totalSupply
+        }
+        catch(e){
+            this.wait(200)
+            return await this.getTotalElys()
+        }        
     }
     getLocked = async () => {
         let startDate = new Date('22 Aug 2021')
@@ -70,7 +80,7 @@ class Stats extends Component {
         return addCommas(this.state.totalSupply/100000 - this.state.locked)
     }
     render = () => {
-       
+       if(this.loading())return null
         return (
             <div style={{maxWidth: 800, marginTop: 30, marginBottom: 30}}>
                 <TokenInfoBox text={'$ ' +  this.valueLocked()} label={'Total Value Locked'} />    
