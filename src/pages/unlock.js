@@ -11,7 +11,7 @@ class TokenInfo extends Component {
         withdrawnLoading: true,
         availableLoading: true,
         waitingForWithdraw: false,
-        account: ''
+        error: false
     }
     withdraw = async () => {
         let lock = this.props.lock
@@ -30,10 +30,20 @@ class TokenInfo extends Component {
                 console.log(e)
             }
         },20000)
-        await lock['release']([])
-        clearInterval(checkDone)
-        await this.props.getInfo(this.props.type)
-        this.setState({waitingForWithdraw:false})
+        try{
+            await lock['release']([])
+            clearInterval(checkDone)
+            await this.props.getInfo(this.props.type)
+            this.setState({waitingForWithdraw:false})
+        }
+        catch(e){
+            clearInterval(checkDone)
+            this.setState({error: true})
+            await this.wait(1000)
+            await this.props.getInfo(this.props.type)
+            this.setState({waitingForWithdraw:false, error: false})
+        }
+        
     }
     wait = (tm) => {
         return new Promise(r=>{
@@ -42,7 +52,8 @@ class TokenInfo extends Component {
     }
    
     render = () => {
-        let withdraw = (!this.props.loading)?<Withdraw amount={parseFloat(this.props.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} />:null
+        let withdraw = (!this.props.loading)?<Withdraw amount={parseFloat(this.props.available)} withdraw={this.withdraw} waiting={this.state.waitingForWithdraw} error={this.state.error}/>:null
+        
         return (
             <div style={{
                 maxWidth: 900,
