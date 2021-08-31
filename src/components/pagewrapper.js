@@ -142,7 +142,7 @@ class PageWrapper extends Component {
                             </div>
                     </div>
                 )
-            } else if (window.ethereum.networkVersion!=='250' && window.ethereum.networkVersion!=='4002'){
+            } else if (window.ethereum.networkVersion!=='250'){
                 return (
                     <div style={{display: 'flex', position: 'relative', minHeight: 700, width: '100%', flexDirection: 'column'}}>
                         <div style={{
@@ -155,7 +155,7 @@ class PageWrapper extends Component {
                                 fontSize: 18,
                                 fontWeight: 'bold'
                             }}>Your network needs to be set to Fantom Opera in Metamask.<br /><br />
-                            You can find instructions <a href="https://docs.fantom.foundation/tutorials/set-up-metamask" rel="noreferrer" target="_blank" style={{color: '#dddddd'}}>here</a>
+                            You can find instructions <a href="https://docs.fantom.foundation/tutorials/set-up-metamask" rel="noreferrer" style={{color: '#dddddd'}}>here</a>
                             
                         </div>
 

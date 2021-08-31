@@ -43,7 +43,7 @@ class Main extends Component {
                             clearInterval(i)
                             resolve(price)
                         }
-                    })
+                    },1000)
                 })
             }
             price = await tryAgain()

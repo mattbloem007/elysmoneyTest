@@ -180,7 +180,14 @@ class UnlockPage extends Component {
         if(this.state.lockSeed && this.state.lockTeam){
             let tokenInfo = (this.state.viewing==='seed')?(<TokenInfo {...this.state.seedInfo} lock={this.state.lockSeed} getInfo={this.getInfo}/>):(<TokenInfo  {...this.state.teamInfo} lock={this.state.lockTeam} getInfo={this.getInfo}/>)
             return (
-            <div>
+            <div style={{
+                maxWidth: 900,
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: 40,
+                textAlign: 'center'
+            }}>
                 
                 <div style={{width: 300, marginLeft: 'auto', marginRight: 'auto', marginTop: 30}}>
                     <button onClick={()=>this.choose('seed')} style={{
