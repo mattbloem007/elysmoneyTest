@@ -59,7 +59,7 @@ const Farm = (props) => {
 const FarmPage = (props) => {
     return (<div style={{display: 'flex', marginLeft: 'auto', marginRight: 'auto', marginTop: 40}}>
         <Farm icon={cannabis} title={'The Grow'} pair={'FTM-ELYS'} pairType={'LP Lock'} lockTime={'3-12 Months'} return={'4-24%'} apr={'16-24%'} paidIn={'ELYS'}/>
-        <Farm icon={sanpedro} title={'The Patch'} pair={'FTM-ELYS'} pairType={'LP Lock'} lockTime={'6 Months'} return={'10%'} apr={'20%'} paidIn={'ELYS'}/>
+        <Farm icon={sanpedro} title={'The Farm'} pair={'FTM-ELYS'} pairType={'Single token Lock'} lockTime={'1-3 Years'} return={'10%'} apr={'20%'} paidIn={'ELYS'}/>
         
     </div>)
 }
