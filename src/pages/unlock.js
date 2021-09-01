@@ -30,18 +30,19 @@ class TokenInfo extends Component {
                 console.log(e)
             }
         },20000)
+        
         try{
             await lock['release']([])
-            clearInterval(checkDone)
-            await this.props.getInfo(this.props.type)
-            this.setState({waitingForWithdraw:false})
+            //clearInterval(checkDone)
+            //await this.props.getInfo(this.props.type)
+            //this.setState({waitingForWithdraw:false})
         }
         catch(e){
             clearInterval(checkDone)
             //this.setState({error: true})
             //await this.wait(1000)
             await this.props.getInfo(this.props.type)
-            this.setState({waitingForWithdraw:false, error: false})
+            this.setState({waitingForWithdraw:false})
         }
         
     }
