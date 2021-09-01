@@ -92,7 +92,7 @@ class UnlockPage extends Component {
         console.log(factory)
         let TokenFactory = new Contract('lockFactory',contractAddress[factory])
         let accounts = await window.web3.eth.getAccounts()
-        let account = '0x384E9F5f2cB0c6c90bab4A8FD77CEf243fFF422b' //accounts[0]
+        let account = accounts[0]
         this.setState({account: account})
         try{
             let lockAddress = await TokenFactory['getLock']([account])
