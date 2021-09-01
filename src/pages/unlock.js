@@ -30,18 +30,19 @@ class TokenInfo extends Component {
                 console.log(e)
             }
         },20000)
+        
         try{
             await lock['release']([])
-            clearInterval(checkDone)
-            await this.props.getInfo(this.props.type)
-            this.setState({waitingForWithdraw:false})
+            //clearInterval(checkDone)
+            //await this.props.getInfo(this.props.type)
+            //this.setState({waitingForWithdraw:false})
         }
         catch(e){
             clearInterval(checkDone)
             //this.setState({error: true})
             //await this.wait(1000)
             await this.props.getInfo(this.props.type)
-            this.setState({waitingForWithdraw:false, error: false})
+            this.setState({waitingForWithdraw:false})
         }
         
     }
@@ -91,7 +92,7 @@ class UnlockPage extends Component {
         console.log(factory)
         let TokenFactory = new Contract('lockFactory',contractAddress[factory])
         let accounts = await window.web3.eth.getAccounts()
-        let account = accounts[0]
+        let account = '0x384E9F5f2cB0c6c90bab4A8FD77CEf243fFF422b' //accounts[0]
         this.setState({account: account})
         try{
             let lockAddress = await TokenFactory['getLock']([account])
