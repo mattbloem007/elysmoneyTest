@@ -127,7 +127,7 @@ class UnlockPage extends Component {
             available = parseInt(available/100000).toString()
             let info = {
                 loading: false,
-                locked,withdrawn,available,type:'lockType'
+                locked,withdrawn,available,type:lockType
             }
             console.log(info)
             if(lockType==='seed'){

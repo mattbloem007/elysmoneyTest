@@ -20,7 +20,8 @@ const Farm = (props) => {
             padding: 10,
             margin: 20,
             height: 280,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            verticalAlign: 'top'
         }}>
             <img src={props.icon} alt='icon' width={30} />
             <div style={{
