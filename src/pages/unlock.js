@@ -38,7 +38,7 @@ class TokenInfo extends Component {
             setTimeout(async()=>{
                 await this.props.getInfo(this.props.type)
                 this.setState({waitingForWithdraw:false})
-            },1000)
+            },5000)
             
         }
         catch(e){
