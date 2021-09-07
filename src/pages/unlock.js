@@ -16,39 +16,15 @@ class TokenInfo extends Component {
     withdraw = async () => {
         let lock = this.props.lock
         this.setState({waitingForWithdraw:true})
-        //need to do polling etc. here
-        /*
-        let checkDone = setInterval(async ()=>{
-            try{
-                let available = await lock['amountCanRelease']([])
-                if(available===0){
-                    clearInterval(checkDone)
-                    await this.props.getInfo(this.props.type)
-                    this.setState({waitingForWithdraw:false})
-                }
-            }
-            catch(e){
-                console.log(e)
-            }
-        },20000)
-        */
+        
         try{
             await lock['release']([])
-            //clearInterval(checkDone)
-            setTimeout(async()=>{
-                await this.props.getInfo(this.props.type)
-                this.setState({waitingForWithdraw:false})
-            },5000)
-            
+            await this.wait(20000)
+            await this.props.getInfo(this.props.type)
         }
         catch(e){
-            //clearInterval(checkDone)
-            //this.setState({error: true})
-            //await this.wait(1000)
-            setTimeout(async()=>{
-                await this.props.getInfo(this.props.type)
-                this.setState({waitingForWithdraw:false})
-            },1000)
+            await this.wait(20000)
+            await this.props.getInfo(this.props.type)
         }
         
     }
