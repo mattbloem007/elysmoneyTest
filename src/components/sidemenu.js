@@ -71,7 +71,7 @@ const Logo = (props) => {
 }
 
 const Price = (props) => {
-    return <a style={{ 
+    return <div style={{ 
         width: 200,
         display: 'block',
         marginRight: 'auto',
@@ -84,21 +84,21 @@ const Price = (props) => {
         padding: 10,
         textAlign: 'center',
         textDecoration: 'none'
-    }} href="https://kek.tools/t/0xd89cc0d2a28a769eadef50fff74ebc07405db9fc" target="_blank" rel="noreferrer">
+    }}>
         <img src={logo} width={30} alt="ElysLogo" />
         <div style={{display: 'inline-block', marginLeft: 10, verticalAlign: 'top', marginTop: 5}}>
-            ${trimDec(props.price.usd,2)}
+            <a style={{textDecoration: 'none', color: '#000000'}} href="https://kek.tools/t/0xd89cc0d2a28a769eadef50fff74ebc07405db9fc" target="_blank" rel="noreferrer">${trimDec(props.price.usd,2)}</a>
         </div>
         <div style={{display: 'inline-block', marginLeft: 10, verticalAlign: 'top', marginTop: 5}}>
             =
         </div>
         <img src={ftmlogo} alt="FTMLogo" width={16} style={{position: 'relative', top: -2, marginLeft: 10}}/>
         <div style={{display: 'inline-block', marginLeft: 10, verticalAlign: 'top', marginTop: 5}}>
-            {trimDec(props.price.ftm,2)}
+        <a style={{textDecoration: 'none', color: '#000000'}} href="https://charts.zoocoin.cash/charts?exchange=ZooDex&pair=0x6831b2EDe25Dcc957256FAE815f051181F6C7b08-inverted" target="_blank" rel="noreferrer">{trimDec(props.price.ftm,2)}</a>
         </div>
          
         
-    </a>
+    </div>
 }
 
 
